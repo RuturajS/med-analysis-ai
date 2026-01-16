@@ -184,6 +184,13 @@ def scan_directory(input_dir: str, output_file: str, interactive: bool = False):
             drugs = parsed_result.get('drugs', [])
             alerts = parsed_result.get('alerts', [])
 
+            # Validation: Check if it looks like a prescription
+            if not drugs:
+                print(f"⚠️  ALERT: No medication found in {filename}.")
+                print(f"   -> This does not appear to be a valid prescription or the text is illegible.")
+                print(f"   -> Skipping save for this file.")
+                continue
+
             record = {
                 "file_name": filename,
                 "file_path": os.path.abspath(file_path),
@@ -196,6 +203,10 @@ def scan_directory(input_dir: str, output_file: str, interactive: bool = False):
             
             if interactive:
                 record = interactive_tagging(record)
+                # If during interactive mode user clears all drugs, we treat it as skipped/invalid
+                if not record.get('extracted_drugs'):
+                    print("   -> Marked as invalid/skipped by user.")
+                    continue
             else:
                 display_record(record)
             
@@ -290,26 +301,61 @@ def main():
     
     parser.add_argument("command", choices=["scan", "view", "export"], help="Command to execute")
     parser.add_argument("--dir", help="Directory containing prescription images", default="uploads")
-    parser.add_argument("--output", help="Output file for annotations (JSON) or CSV file for export", default="annotations.json")
+    parser.add_argument("--output", help="Output file path (for export) or file to view", default="annotations.json")
     parser.add_argument("--input", help="Input JSON file for export command", default="annotations.json")
     parser.add_argument("--interactive", action="store_true", help="Enable interactive tagging mode")
     
     args = parser.parse_args()
     
     if args.command == "scan":
-        scan_directory(args.dir, args.output, args.interactive)
+        # Enforce results folder and timestamped filename for annotations
+        results_dir = "results"
+        if not os.path.exists(results_dir):
+            os.makedirs(results_dir)
+        
+        # Generate timestamped filename
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_filename = f"annotation_{timestamp}.json"
+        output_path = os.path.join(results_dir, output_filename)
+        
+        print(f"Starting scan. Results will be saved to: {output_path}")
+        scan_directory(args.dir, output_path, args.interactive)
+
     elif args.command == "view":
-        if os.path.exists(args.output):
-            with open(args.output, 'r') as f:
+        target_file = args.output
+        # Smart default: If default "annotations.json" missing, try latest in results
+        if args.output == "annotations.json" and not os.path.exists("annotations.json"):
+            if os.path.exists("results"):
+                files = os.listdir("results")
+                json_files = [f for f in files if f.startswith("annotation_") and f.endswith(".json")]
+                if json_files:
+                    json_files.sort(reverse=True)
+                    target_file = os.path.join("results", json_files[0])
+                    print(f"No specific file provided. Viewing latest: {target_file}")
+        
+        if os.path.exists(target_file):
+            with open(target_file, 'r') as f:
                 data = json.load(f)
-                print(f"Loaded {len(data)} records from {args.output}")
+                print(f"Loaded {len(data)} records from {target_file}")
                 for record in data:
                     display_record(record)
         else:
-            print(f"File {args.output} not found.")
+            print(f"File {target_file} not found.")
+
     elif args.command == "export":
         # Output arg here refers to the target file name
-        export_data(args.input, args.output)
+        input_file = args.input
+        # Smart default for input
+        if args.input == "annotations.json" and not os.path.exists("annotations.json"):
+             if os.path.exists("results"):
+                files = os.listdir("results")
+                json_files = [f for f in files if f.startswith("annotation_") and f.endswith(".json")]
+                if json_files:
+                    json_files.sort(reverse=True)
+                    input_file = os.path.join("results", json_files[0])
+                    print(f"No input file provided. Using latest: {input_file}")
+
+        export_data(input_file, args.output)
 
 if __name__ == "__main__":
     main()

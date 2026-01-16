@@ -6,7 +6,10 @@ from typing import Tuple
 class PrescriptionProcessor:
     def __init__(self):
         # Initialize EasyOCR reader (supports handwritten text)
-        self.reader = easyocr.Reader(['en'], gpu=False)
+        # Enable GPU if available, EasyOCR handles the fallback gracefully usually, 
+        # but explicit True often forces checking.
+        print("Initializing EasyOCR with GPU...")
+        self.reader = easyocr.Reader(['en'], gpu=True)
     
     def preprocess_image(self, image_bytes: bytes) -> np.ndarray:
         """

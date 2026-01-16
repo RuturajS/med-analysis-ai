@@ -1,4 +1,5 @@
 import re
+import torch
 from typing import List, Dict
 from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
 from models import DrugEntity
@@ -13,7 +14,15 @@ class MedicalNLPParser:
             model_name = "emilyalsentzer/Bio_ClinicalBERT"
             self.tokenizer = AutoTokenizer.from_pretrained(model_name)
             self.model = AutoModelForTokenClassification.from_pretrained(model_name)
-            self.ner_pipeline = pipeline("ner", model=self.model, tokenizer=self.tokenizer, aggregation_strategy="simple")
+            
+            # Check for GPU
+            device = 0 if torch.cuda.is_available() else -1
+            if device == 0:
+                print(f"Initializing ClinicalBERT on GPU: {torch.cuda.get_device_name(0)}")
+            else:
+                print("GPU not detected for Transformers, using CPU.")
+            
+            self.ner_pipeline = pipeline("ner", model=self.model, tokenizer=self.tokenizer, aggregation_strategy="simple", device=device)
         except Exception as e:
             print(f"Warning: Could not load ClinicalBERT: {e}")
             print("Falling back to rule-based parsing")

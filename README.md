@@ -9,11 +9,15 @@
 ## 🚀 Key Features
 
 - **Batch Scanning**: Process entire directories of prescription images in seconds.
-- **AI-Powered Extraction**: 
-  - **EasyOCR** for text recognition (handwritten & printed).
-  - **Medical NLP** (BioClinicalBERT + Regex) for structured extraction of medications.
+- **GPU Acceleration**: Utilizes CUDA-enabled GPUs for faster OCR (EasyOCR) and NLP (Transformers) inference.
+- **Smart Validation**: 
+  - Automatically identifies non-prescription images.
+  - Skips invalid files with no detected medications to keep data clean.
+- **Automated File Management**: 
+  - Saves every scan with a unique timestamp in the `results/` folder.
+  - Commands intelligently default to the latest scan file.
 - **Interactive Tagging**: A "Human-in-the-loop" CLI mode to verify or correct AI outputs manually.
-- **Data Export**: Convert structured JSON annotations into flat CSV files for data analysis.
+- **Data Export**: Convert structured JSON annotations into CSV, Excel, PDF, or Text formats.
 - **Privacy First**: All processing happens locally.
 
 ---
@@ -23,6 +27,7 @@
 ### Prerequisites
 - Python 3.8+
 - pip
+- (Optional) NVIDIA GPU + CUDA Toolkit for acceleration
 
 ### Setup
 1. Clone the repository and navigate to the engine directory:
@@ -40,47 +45,43 @@
 
 ## 💻 Usage
 
-The `cli_scanner.py` is the main entry point for all operations.
+The `cli_scanner.py` is the main entry point.
 
 ### 1. 📂 Batch Scan
-Scan a folder of images and generate a JSON annotation file.
+Scan a folder of images. A new timestamped JSON file is automatically created in the `results/` directory.
 
 ```bash
-python cli_scanner.py scan --dir uploads --output annotations.json
+python cli_scanner.py scan --dir uploads
 ```
-- `--dir`: Directory containing `.jpg`, `.png` images.
-- `--output`: Path to save the structured JSON data.
+*Output*: `results/annotation_YYYYMMDD_HHMMSS.json`
 
-### 2. ✍️ Interactive Tagging (Human Verification)
-Run the scanner in interactive mode to approve or edit extractions one by one.
+### 2. ✍️ Interactive Tagging
+Review and verify extractions manually as they process.
 
 ```bash
-python cli_scanner.py scan --dir uploads --output annotations.json --interactive
+python cli_scanner.py scan --dir uploads --interactive
 ```
-- **y**: Approve result.
-- **skip**: Skip file.
-- **Manual Entry**: Type corrected details when prompted.
 
 ### 3. 📊 View Usage
-Display currently saved annotations in a readable table format in the terminal.
+View the content of an annotation file. If no file is specified, it opens the **latest** one from the `results/` folder.
 
 ```bash
-python cli_scanner.py view --output annotations.json
+python cli_scanner.py view
+```
+*Optional*: View a specific file:
+```bash
+python cli_scanner.py view --output results/annotation_20260116_120000.json
 ```
 
 ### 4. 📤 Export Data
-Convert the complex JSON output into various formats for reporting and analysis.
-Supported formats: `.csv`, `.xlsx` (Excel), `.json`, `.pdf`, `.txt`.
+Export annotations to report formats. Defaults to the **latest** scan if input is not provided.
 
 ```bash
-# Export to CSV
-python cli_scanner.py export --input annotations.json --output results.csv
+# Export latest scan to Excel
+python cli_scanner.py export --output report.xlsx
 
-# Export to Excel
-python cli_scanner.py export --input annotations.json --output report.xlsx
-
-# Export to PDF
-python cli_scanner.py export --input annotations.json --output analysis.pdf
+# Export specific scan to PDF
+python cli_scanner.py export --input results/annotation_20260116_123000.json --output analysis.pdf
 ```
 
 ---
@@ -91,11 +92,10 @@ python cli_scanner.py export --input annotations.json --output analysis.pdf
 med-analysis-ai/
 ├── med_scan_engine/       # Core Application
 │   ├── cli_scanner.py     # Main CLI Tool
-│   ├── processor.py       # Image Preprocessing & OCR
+│   ├── processor.py       # Image Preprocessing & OCR (GPU Enabled)
 │   ├── nlp_parser.py      # Medical Entity Extraction (BERT)
-│   ├── models.py          # Data Structures (Pydantic)
 │   ├── uploads/           # Drop your images here
-│   ├── annotations.json   # Generated output
+│   ├── results/           # Auto-generated annotation files
 │   └── requirements.txt   # Dependencies
 ├── README.md              # Documentation
 └── LICENSE                # MIT License

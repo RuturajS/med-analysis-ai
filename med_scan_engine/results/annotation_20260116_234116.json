@@ -1,27 +1,8 @@
 [
     {
-        "file_name": "rx_20260116_200026.jpg",
-        "file_path": "C:\\Users\\rutur\\OneDrive\\Desktop\\Ai-Projects\\MedAnalysisAI\\med-analysis-ai\\backend\\uploads\\rx_20260116_200026.jpg",
-        "timestamp": "2026-01-16T22:35:17.277500",
-        "raw_text": "URL Scraper 127 URLs found COpYAID Savea5 txt] https}Iguide duosecurity com/third-party-acc ounts https |{hackerone com https {{hackerone com} https |/hackerone comfbugs?subject-user https |mhackerone com/directorylprograms https |{hackerone comfhacker_dashboard https {{hackerone comfhacktivitylcve_discove bttns_bhackerone comthadktiitulave discolc Developed by Ruturaj Sharbidre",
-        "extracted_drugs": [
-            {
-                "drug_name": "URL Scraper 127 URLs",
-                "dosage": "",
-                "frequency": "",
-                "duration": ""
-            }
-        ],
-        "alerts": [
-            "\u26a0\ufe0f Dosage unclear for URL Scraper 127 URLs",
-            "\u26a0\ufe0f Frequency not specified for URL Scraper 127 URLs"
-        ],
-        "status": "auto_generated"
-    },
-    {
         "file_name": "presicpt.png",
         "file_path": "C:\\Users\\rutur\\OneDrive\\Desktop\\Ai-Projects\\MedAnalysisAI\\med-analysis-ai\\med_scan_engine\\uploads\\presicpt.png",
-        "timestamp": "2026-01-16T23:31:33.913967",
+        "timestamp": "2026-01-16T23:41:28.663669",
         "raw_text": "DeMart Supermarts Ltd_ shatr  11514042000055 DHArT RANKALA DpP,Shalint Palace, Gaganbaxda Road, Molnapur\"'410016, Phone ; 0231-2832390 TaX INVQICE B14LHo +414601013-Dqpobe 01/01/20z6( 1;4+ Vov _ 5077013-0088- Caahler * VEJ/073470 Part (culars #tx/ig HReta Valua cosi 0 0.q08, SGST @ O.c0} 100630 S0K44 MASURI   RICE 40,0p 1j0.00 'EggstR? zj04 5oST & 2.504 100532 PERH 8 4,05 Z10a90 HALDIRA; AL 720379 HL4ZI Makgp -Jz9dn1 77,p9 Il,09 CgST 00_ S65T %ade 59.0C 59.Q0 340250 WHEEL ICTIV gre-Zk 135.p0 115.b0 Items Qty} 14 435. 50 CA 4eLi It  Lv GST Breakup Cetall? (Anqknt 6ST Tujble CGsr CE6S IkD XoonmamxA [J8.po 182.60 {15.00 348 438.50 Lnqunt Racalvoq 38 Card paxnant 08 ~. Avenue IRARDMLAGAIN Ziilcas izhiza HJNI BL (1 01 I \" 40.50 I4R) BuST [atal Arunt , Krqvot 1J8.00 173,80 91.4 Enn] 440-20 964 ~o 7o:",
         "extracted_drugs": [
             {
@@ -40,7 +21,7 @@
     {
         "file_name": "rx_20260116_200026.jpg",
         "file_path": "C:\\Users\\rutur\\OneDrive\\Desktop\\Ai-Projects\\MedAnalysisAI\\med-analysis-ai\\med_scan_engine\\uploads\\rx_20260116_200026.jpg",
-        "timestamp": "2026-01-16T23:31:37.404334",
+        "timestamp": "2026-01-16T23:41:31.603794",
         "raw_text": "URL Scraper 127 URLs found COpYAID Savea5 txt] https}Iguide duosecurity com/third-party-acc ounts https |{hackerone com https {{hackerone com} https |/hackerone comfbugs?subject-user https |mhackerone com/directorylprograms https |{hackerone comfhacker_dashboard https {{hackerone comfhacktivitylcve_discove bttns_bhackerone comthadktiitulave discolc Developed by Ruturaj Sharbidre",
         "extracted_drugs": [
             {
