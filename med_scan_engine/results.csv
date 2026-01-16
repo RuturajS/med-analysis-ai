@@ -1,0 +1,2 @@
+file_name,timestamp,status,drug_name,dosage,frequency,duration,alerts
+rx_20260116_200026.jpg,2026-01-16T22:35:17.277500,auto_generated,URL Scraper 127 URLs,,,,⚠️ Dosage unclear for URL Scraper 127 URLs; ⚠️ Frequency not specified for URL Scraper 127 URLs

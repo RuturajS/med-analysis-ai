@@ -1,305 +1,130 @@
-# 🏥 Medical Prescription Analysis & Tracking System
+# MedScan Engine 🏥
 
-> **AI-powered prescription digitization + medication compliance tracking**
+**MedScan Engine** is a robust, AI-powered backend tool designed for high-volume digitization and analysis of medical prescriptions. By leveraging Optical Character Recognition (OCR) and optimized Medical NLP, it extracts drug names, dosages, frequencies, and alerts from raw prescription images.
 
-A comprehensive medical solution that uses computer vision and NLP to digitize handwritten/printed prescriptions and track medication compliance in real-time.
-
-![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.128.0-009688.svg)
-![React](https://img.shields.io/badge/React-18.3-61dafb.svg)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
+> **Focus**: This project is strictly backend-focused, providing a CLI for scanning, data parsing, and structured data export (JSON/CSV).
 
 ---
 
-## ✨ Features
+## 🚀 Key Features
 
-### 📸 Prescription Analysis
-- **OCR Extraction**: Uses EasyOCR for robust text extraction from images
-- **Medical NLP**: Powered by BioClinicalBERT for entity recognition
-- **Smart Parsing**: Extracts drug names, dosages, frequencies, and durations
-- **Rule-based Fallback**: Handles medical abbreviations (BID, TID, PRN, etc.)
-- **Quality Alerts**: Flags illegible or ambiguous entries
-
-### 💊 Medication Tracking
-- **Intake Logging**: Track taken/missed/skipped doses
-- **Multiple Verification**: Manual, barcode, or QR code scanning
-- **Compliance Monitoring**: Real-time compliance rate calculation
-- **Audit Trail**: Complete timestamp logs for all actions
-
-### 🔐 Safety Features
-- **Drug Interaction Detection**: Warns about dangerous combinations
-- **Human-in-the-Loop**: System assists, doesn't prescribe
-- **Privacy-First**: Local processing with SQLite database
-- **Error Flagging**: Highlights ambiguities for review
+- **Batch Scanning**: Process entire directories of prescription images in seconds.
+- **AI-Powered Extraction**: 
+  - **EasyOCR** for text recognition (handwritten & printed).
+  - **Medical NLP** (BioClinicalBERT + Regex) for structured extraction of medications.
+- **Interactive Tagging**: A "Human-in-the-loop" CLI mode to verify or correct AI outputs manually.
+- **Data Export**: Convert structured JSON annotations into flat CSV files for data analysis.
+- **Privacy First**: All processing happens locally.
 
 ---
 
-## 🚀 Quick Start
+## 🛠️ Installation
 
 ### Prerequisites
-- Python 3.9+
-- Node.js 16+
-- npm or yarn
+- Python 3.8+
+- pip
 
-### Backend Setup
+### Setup
+1. Clone the repository and navigate to the engine directory:
+   ```bash
+   cd med-analysis-ai/med_scan_engine
+   ```
 
-```bash
-# Navigate to backend directory
-cd backend
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start the FastAPI server
-python main.py
-```
-
-The API will be available at `http://localhost:8000`
-
-### Frontend Setup
-
-```bash
-# Navigate to frontend directory
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-The UI will be available at `http://localhost:5173`
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   *(Note: The first run may download OCR/BERT models ~500MB)*
 
 ---
 
-## 🏗️ Architecture
+## 💻 Usage
 
+The `cli_scanner.py` is the main entry point for all operations.
+
+### 1. 📂 Batch Scan
+Scan a folder of images and generate a JSON annotation file.
+
+```bash
+python cli_scanner.py scan --dir uploads --output annotations.json
 ```
-┌─────────────┐
-│   Camera    │ (Upload prescription image)
-└──────┬──────┘
-       │
-       v
-┌─────────────┐
-│ Preprocess  │ (Deskew, denoise, enhance)
-└──────┬──────┘
-       │
-       v
-┌─────────────┐
-│  EasyOCR    │ (Extract text)
-└──────┬──────┘
-       │
-       v
-┌─────────────┐
-│   NLP       │ (Parse entities with ClinicalBERT)
-└──────┬──────┘
-       │
-       v
-┌─────────────┐
-│ Validation  │ (Safety checks, interactions)
-└──────┬──────┘
-       │
-       v
-┌─────────────┐
-│  Database   │ (SQLite storage)
-└─────────────┘
+- `--dir`: Directory containing `.jpg`, `.png` images.
+- `--output`: Path to save the structured JSON data.
+
+### 2. ✍️ Interactive Tagging (Human Verification)
+Run the scanner in interactive mode to approve or edit extractions one by one.
+
+```bash
+python cli_scanner.py scan --dir uploads --output annotations.json --interactive
+```
+- **y**: Approve result.
+- **skip**: Skip file.
+- **Manual Entry**: Type corrected details when prompted.
+
+### 3. 📊 View Usage
+Display currently saved annotations in a readable table format in the terminal.
+
+```bash
+python cli_scanner.py view --output annotations.json
+```
+
+### 4. 📤 Export Data
+Convert the complex JSON output into various formats for reporting and analysis.
+Supported formats: `.csv`, `.xlsx` (Excel), `.json`, `.pdf`, `.txt`.
+
+```bash
+# Export to CSV
+python cli_scanner.py export --input annotations.json --output results.csv
+
+# Export to Excel
+python cli_scanner.py export --input annotations.json --output report.xlsx
+
+# Export to PDF
+python cli_scanner.py export --input annotations.json --output analysis.pdf
 ```
 
 ---
 
-## 📁 Project Structure
+## 📂 Project Structure
 
 ```
 med-analysis-ai/
-├── backend/
-│   ├── main.py              # FastAPI application
-│   ├── processor.py         # Image preprocessing & OCR
-│   ├── nlp_parser.py        # Medical NLP & entity extraction
-│   ├── database.py          # SQLAlchemy models
-│   ├── models.py            # Pydantic schemas
-│   ├── requirements.txt     # Python dependencies
-│   └── uploads/             # Uploaded prescription images
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Dashboard.jsx      # Stats & active meds
-│   │   │   ├── RxAnalyzer.jsx     # Prescription upload
-│   │   │   └── MedTracker.jsx     # Intake logging
-│   │   ├── App.jsx                # Main app component
-│   │   └── index.css              # Premium design system
-│   ├── package.json
-│   └── vite.config.js
-│
-└── README.md
+├── med_scan_engine/       # Core Application
+│   ├── cli_scanner.py     # Main CLI Tool
+│   ├── processor.py       # Image Preprocessing & OCR
+│   ├── nlp_parser.py      # Medical Entity Extraction (BERT)
+│   ├── models.py          # Data Structures (Pydantic)
+│   ├── uploads/           # Drop your images here
+│   ├── annotations.json   # Generated output
+│   └── requirements.txt   # Dependencies
+├── README.md              # Documentation
+└── LICENSE                # MIT License
 ```
 
 ---
 
-## 🎨 Tech Stack
+## 📝 Example Output
 
-### Backend
-| Layer | Technology |
-|-------|-----------|
-| **API Framework** | FastAPI |
-| **OCR** | EasyOCR |
-| **Medical NLP** | BioClinicalBERT (Transformers) |
-| **Image Processing** | OpenCV |
-| **Database** | SQLite (SQLAlchemy) |
-| **Validation** | Pydantic |
+**Input Image**: `rx_sample.jpg`
 
-### Frontend
-| Layer | Technology |
-|-------|-----------|
-| **Framework** | React 18 + Vite |
-| **Animations** | Framer Motion |
-| **Icons** | Lucide React |
-| **Styling** | Vanilla CSS (Glassmorphism) |
-| **HTTP Client** | Axios |
-
----
-
-## 📊 API Endpoints
-
-### Prescription Analysis
-```http
-POST /api/prescriptions/analyze
-Content-Type: multipart/form-data
-
-{
-  "file": <image_file>,
-  "patient_id": 1
-}
+**CLI Output (Table View)**:
+```text
++----------------------+----------+-------------+------------+
+| Drug Name            | Dosage   | Frequency   | Duration   |
++======================+==========+=============+============+
+| Amoxicillin          | 500mg    | 3x daily    | 7 days     |
++----------------------+----------+-------------+------------+
 ```
 
-### Patient Management
-```http
-POST /api/patients
-GET  /api/patients/{patient_id}
-GET  /api/patients/code/{patient_code}
+**CSV Export**:
+```csv
+file_name,drug_name,dosage,frequency,duration,alerts
+rx_sample.jpg,Amoxicillin,500mg,3x daily,7 days,
 ```
-
-### Medication Tracking
-```http
-POST /api/intake/log
-GET  /api/medications/{patient_id}/active
-GET  /api/compliance/{patient_id}
-```
-
----
-
-## 🎯 Use Cases
-
-1. **Hospitals**: Digitize doctor prescriptions for pharmacy systems
-2. **Pharmacies**: Verify prescriptions and detect errors
-3. **Elderly Care**: Track medication compliance for patients
-4. **Clinical Trials**: Monitor drug intake timestamps
-5. **Home Healthcare**: Remote medication adherence tracking
-
----
-
-## 🔬 AI Models Used
-
-1. **BioClinicalBERT** (`emilyalsentzer/Bio_ClinicalBERT`)
-   - Pre-trained on medical literature
-   - Fine-tuned for medical entity recognition
-   - Identifies drugs, dosages, frequencies
-
-2. **EasyOCR**
-   - Handles handwritten + printed text
-   - No separate Tesseract installation needed
-   - Supports 80+ languages
-
----
-
-## 🛡️ Safety & Compliance
-
-✅ **This system does NOT diagnose or prescribe**  
-✅ All outputs require pharmacist/doctor review  
-✅ Privacy-first: local inference and storage  
-✅ Complete audit trail for regulatory compliance  
-✅ Drug interaction warnings for safety  
-
-**Regulatory Note**: This is a clinical decision support tool. All outputs must be reviewed by licensed healthcare professionals.
-
----
-
-## 🌟 Key Differentiators
-
-- ✅ Handles **handwritten + printed** prescriptions
-- ✅ **Medical-specific NLP** (not generic OCR)
-- ✅ **Compliance tracking** beyond just reading Rx
-- ✅ **Drug interaction warnings**
-- ✅ **Premium UI** with modern design
-- ✅ **Privacy-focused** with local processing
-
----
-
-## 🎨 UI Preview
-
-The frontend features:
-- 🌈 **Glassmorphism** design
-- 🎭 **Framer Motion** animations
-- 🎨 Medical-themed **gradient palette**
-- 📱 **Responsive** layout
-- ♿ **Accessible** components
-
----
-
-## 📝 Sample Workflow
-
-1. **Upload Prescription**: User uploads image via drag-drop
-2. **AI Processing**: System extracts text and parses medications
-3. **Review Results**: Dashboard shows drugs, dosages, alerts
-4. **Track Intake**: Patient logs medication via barcode/manual
-5. **Monitor Compliance**: Real-time compliance stats on dashboard
-
----
-
-## 🚧 Future Enhancements
-
-- [ ] Mobile app (React Native)
-- [ ] Real-time camera capture
-- [ ] Multi-language support
-- [ ] Advanced drug interaction database
-- [ ] Integration with pharmacy systems
-- [ ] Allergy checking
-- [ ] Medication reminders/notifications
-- [ ] Cloud deployment option
 
 ---
 
 ## 📄 License
+MIT License
 
-MIT License - See [LICENSE](LICENSE) for details
-
----
-
-## 🤝 Contributing
-
-Contributions welcome! This is a demo/proof-of-concept project. For production use:
-- Add comprehensive testing
-- Implement authentication
-- Use PostgreSQL instead of SQLite
-- Add HIPAA compliance measures
-- Integrate with certified drug databases
-
----
-
-## ⚠️ Disclaimer
-
-**This software is for educational and demonstration purposes only.**  
-It is NOT certified for clinical use. Always consult licensed healthcare professionals for medical decisions.
-
----
-
-## 📧 Contact
-
-Built with ❤️ by author Ruturaj Sharbidre  using FastAPI, React, and AI
-
-For questions or collaboration: [Create an issue](https://github.com/RuturajS/med-analysis-ai/issues)
-
----
-
-**Star ⭐ this repo if you find it useful!**
+Made with 🤖 by [Ruturaj Sharbidre]

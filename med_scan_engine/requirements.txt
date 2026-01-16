@@ -10,3 +10,7 @@ torchvision
 torchaudio
 pydantic
 sqlalchemy
+tabulate
+pandas
+openpyxl
+fpdf
