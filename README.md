@@ -55,14 +55,22 @@ python cli_scanner.py scan --dir uploads
 ```
 *Output*: `results/annotation_YYYYMMDD_HHMMSS.json`
 
-### 2. ✍️ Interactive Tagging
+### 2. ⚡ Scan & Export (One-Liner)
+Scan images and immediately generate a report in your preferred format.
+
+```bash
+python cli_scanner.py scan --dir uploads --export-to report.pdf
+```
+*Creates a JSON in `results/` AND a `report.pdf` in one go.*
+
+### 3. ✍️ Interactive Tagging
 Review and verify extractions manually as they process.
 
 ```bash
 python cli_scanner.py scan --dir uploads --interactive
 ```
 
-### 3. 📊 View Usage
+### 4. 📊 View Usage
 View the content of an annotation file. If no file is specified, it opens the **latest** one from the `results/` folder.
 
 ```bash
@@ -73,7 +81,7 @@ python cli_scanner.py view
 python cli_scanner.py view --output results/annotation_20260116_120000.json
 ```
 
-### 4. 📤 Export Data
+### 5. 📤 Export Data
 Export annotations to report formats. Defaults to the **latest** scan if input is not provided.
 
 ```bash
@@ -95,7 +103,8 @@ med-analysis-ai/
 │   ├── processor.py       # Image Preprocessing & OCR (GPU Enabled)
 │   ├── nlp_parser.py      # Medical Entity Extraction (BERT)
 │   ├── uploads/           # Drop your images here
-│   ├── results/           # Auto-generated annotation files
+│   ├── results/           # Raw JSON annotations
+│   ├── output/            # Final exported reports (PDF, Excel, etc.)
 │   └── requirements.txt   # Dependencies
 ├── README.md              # Documentation
 └── LICENSE                # MIT License

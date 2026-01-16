@@ -304,7 +304,8 @@ def main():
     parser.add_argument("--output", help="Output file path (for export) or file to view", default="annotations.json")
     parser.add_argument("--input", help="Input JSON file for export command", default="annotations.json")
     parser.add_argument("--interactive", action="store_true", help="Enable interactive tagging mode")
-    
+    parser.add_argument("--export-to", help="Immediately export results to this file after scanning (e.g. report.pdf)")
+
     args = parser.parse_args()
     
     if args.command == "scan":
@@ -320,6 +321,22 @@ def main():
         
         print(f"Starting scan. Results will be saved to: {output_path}")
         scan_directory(args.dir, output_path, args.interactive)
+
+        # Auto-export if requested
+        if args.export_to:
+            output_dir = "output"
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
+            
+            # If user provided a path like "report.pdf", prepend "output/"
+            # If user provided "output/report.pdf", allow it.
+            # We simple enforce it goes into output/ folder if no dir specified.
+            export_target = args.export_to
+            if os.path.dirname(export_target) == "":
+                 export_target = os.path.join(output_dir, export_target)
+            
+            print(f"\nAuto-exporting to {export_target}...")
+            export_data(output_path, export_target)
 
     elif args.command == "view":
         target_file = args.output
@@ -345,6 +362,17 @@ def main():
     elif args.command == "export":
         # Output arg here refers to the target file name
         input_file = args.input
+        target_output = args.output
+        
+        # Enforce output directory
+        output_dir = "output"
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        # If user didn't specify a directory, put it in 'output/'
+        if os.path.dirname(target_output) == "":
+            target_output = os.path.join(output_dir, target_output)
+
         # Smart default for input
         if args.input == "annotations.json" and not os.path.exists("annotations.json"):
              if os.path.exists("results"):
@@ -355,7 +383,7 @@ def main():
                     input_file = os.path.join("results", json_files[0])
                     print(f"No input file provided. Using latest: {input_file}")
 
-        export_data(input_file, args.output)
+        export_data(input_file, target_output)
 
 if __name__ == "__main__":
     main()
