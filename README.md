@@ -296,7 +296,7 @@ It is NOT certified for clinical use. Always consult licensed healthcare profess
 
 ## 📧 Contact
 
-Built with ❤️ using FastAPI, React, and AI
+Built with ❤️ by author Ruturaj Sharbidre  using FastAPI, React, and AI
 
 For questions or collaboration: [Create an issue](https://github.com/RuturajS/med-analysis-ai/issues)
 

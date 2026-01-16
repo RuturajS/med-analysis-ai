@@ -56,10 +56,10 @@ function RxAnalyzer() {
     <div className="rx-analyzer">
       <div className="glass-card" style={{ padding: '2rem' }}>
         <div className="flex items-center gap-4 mb-4">
-          <div style={{ 
-            width: '48px', 
-            height: '48px', 
-            background: 'var(--gradient-primary)', 
+          <div style={{
+            width: '48px',
+            height: '48px',
+            background: 'var(--gradient-primary)',
             borderRadius: 'var(--radius-lg)',
             display: 'flex',
             alignItems: 'center',
@@ -83,19 +83,45 @@ function RxAnalyzer() {
             onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
             onDragLeave={() => setDragging(false)}
             onDrop={handleDrop}
-            onClick={() => document.getElementById('file-input').click()}
           >
             <Camera size={48} color="var(--primary)" style={{ marginBottom: '1rem', opacity: 0.6 }} />
             <h3 style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '0.5rem' }}>
               Drop prescription image here
             </h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              or click to browse (PNG, JPG, JPEG)
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+              or select an option below
             </p>
+
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+              <button
+                className="btn btn-primary"
+                onClick={() => document.getElementById('camera-input').click()}
+              >
+                <Camera size={18} />
+                Take Photo
+              </button>
+              <button
+                className="btn btn-outline"
+                onClick={() => document.getElementById('file-input').click()}
+              >
+                <Upload size={18} />
+                Upload File
+              </button>
+            </div>
+
             <input
               id="file-input"
               type="file"
               accept="image/*"
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
+            {/* Camera Input */}
+            <input
+              id="camera-input"
+              type="file"
+              accept="image/*"
+              capture="environment"
               onChange={handleFileChange}
               style={{ display: 'none' }}
             />
@@ -106,22 +132,22 @@ function RxAnalyzer() {
             animate={{ opacity: 1, y: 0 }}
             style={{ marginTop: '1.5rem' }}
           >
-            <div style={{ 
-              borderRadius: 'var(--radius-lg)', 
-              overflow: 'hidden', 
+            <div style={{
+              borderRadius: 'var(--radius-lg)',
+              overflow: 'hidden',
               marginBottom: '1.5rem',
               border: '1px solid rgba(255, 255, 255, 0.1)'
             }}>
-              <img 
-                src={preview} 
-                alt="Prescription preview" 
+              <img
+                src={preview}
+                alt="Prescription preview"
                 style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', background: '#000' }}
               />
             </div>
 
             <div className="flex gap-4">
-              <button 
-                className="btn btn-primary" 
+              <button
+                className="btn btn-primary"
                 onClick={handleAnalyze}
                 disabled={loading}
                 style={{ flex: 1, position: 'relative' }}
@@ -138,8 +164,8 @@ function RxAnalyzer() {
                   </>
                 )}
               </button>
-              <button 
-                className="btn btn-outline" 
+              <button
+                className="btn btn-outline"
                 onClick={() => { setPreview(null); setFile(null); setResult(null); }}
               >
                 Clear
@@ -156,9 +182,9 @@ function RxAnalyzer() {
               exit={{ opacity: 0, height: 0 }}
               style={{ marginTop: '2rem' }}
             >
-              <div style={{ 
-                background: 'rgba(255, 255, 255, 0.05)', 
-                padding: '1.5rem', 
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                padding: '1.5rem',
                 borderRadius: 'var(--radius-lg)',
                 border: '1px solid rgba(255, 255, 255, 0.1)'
               }}>
@@ -172,9 +198,9 @@ function RxAnalyzer() {
                   <h4 style={{ fontSize: '0.95rem', fontWeight: '600', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
                     Extracted Text:
                   </h4>
-                  <div style={{ 
-                    background: 'rgba(0, 0, 0, 0.3)', 
-                    padding: '1rem', 
+                  <div style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    padding: '1rem',
                     borderRadius: 'var(--radius-md)',
                     fontFamily: 'monospace',
                     fontSize: '0.85rem',
@@ -198,9 +224,9 @@ function RxAnalyzer() {
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          style={{ 
-                            background: 'rgba(59, 130, 246, 0.1)', 
-                            padding: '1rem', 
+                          style={{
+                            background: 'rgba(59, 130, 246, 0.1)',
+                            padding: '1rem',
                             borderRadius: 'var(--radius-md)',
                             border: '1px solid rgba(59, 130, 246, 0.2)'
                           }}
@@ -248,9 +274,9 @@ function RxAnalyzer() {
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          style={{ 
-                            background: 'rgba(239, 68, 68, 0.1)', 
-                            padding: '0.875rem', 
+                          style={{
+                            background: 'rgba(239, 68, 68, 0.1)',
+                            padding: '0.875rem',
                             borderRadius: 'var(--radius-md)',
                             border: '1px solid rgba(239, 68, 68, 0.2)',
                             display: 'flex',
