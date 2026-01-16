@@ -1,0 +1,178 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Backend specific
+backend/uploads/*
+!backend/uploads/.gitkeep
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# AI/ML Model Cache
+.transformers_cache/
+.torch/
+.cache/
+huggingface/
+*.pth
+*.pt
+*.onnx
+*.h5
+*.pkl
+*.pickle
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Frontend Build
+frontend/dist/
+frontend/build/
+frontend/dist-ssr/
+.vite/
+*.local
+
+# TypeScript (from Vite template - not needed)
+frontend/src/main.ts
+frontend/src/counter.ts
+frontend/src/style.css
+frontend/src/typescript.svg
+frontend/src/vite-env.d.ts
+
+# Testing
+coverage/
+*.coverage
+.nyc_output/
+.pytest_cache/
+.hypothesis/
+htmlcov/
+.tox/
+
+# IDEs and Editors
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS
+Thumbs.db
+.DS_Store
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.cache
+
+# Documentation build
+docs/_build/
+site/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Certificates and keys
+*.pem
+*.key
+*.crt
+*.cer
+
+# macOS
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+ehthumbs.db
+ehthumbs_vista.db
+
+# Archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
